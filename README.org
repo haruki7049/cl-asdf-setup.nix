@@ -1,6 +1,24 @@
 #+title: cl-asdf-setup.nix
 #+author: haruki7049
 
+I want to use the Nix expression such as:
+
+#+begin_src nix
+  {
+    mkShell,
+    lispPackages.fmt,
+    lispPackages.fiveam,
+  }:
+
+  mkShell {
+    packages = [
+      ccl
+      lispPackages.fmt
+      lispPackages.fiveam
+    ];
+  }
+#+end_src
+
 * Memo
 
 https://www.sbcl.org/manual/asdf.html#Shell_002dfriendly-syntax-for-configuration
