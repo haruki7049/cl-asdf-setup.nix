@@ -1,4 +1,10 @@
 #+title: cl-asdf-setup.nix
 #+author: haruki7049
 
-This is the test how to recognize =.asd= file by any Lisp implementations.
+* Memo
+
+https://www.sbcl.org/manual/asdf.html#Shell_002dfriendly-syntax-for-configuration
+
+https://github.com/NixOS/nixpkgs/blob/e448c1c1e6d3c3edb58c356469f64c578b12d0ff/pkgs/development/lisp-modules/nix-cl.nix#L4
+
+https://github.com/NixOS/nixpkgs/blob/e448c1c1e6d3c3edb58c356469f64c578b12d0ff/pkgs/development/lisp-modules/builder.lisp
