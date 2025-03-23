@@ -19,6 +19,8 @@ I want to use the Nix expression such as:
   }
 #+end_src
 
+This Nix expression needs implementation free library building.
+
 * Memo
 
 https://www.sbcl.org/manual/asdf.html#Shell_002dfriendly-syntax-for-configuration
