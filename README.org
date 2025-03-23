@@ -1,0 +1,4 @@
+#+title: cl-asdf-setup.nix
+#+author: haruki7049
+
+This is the test how to recognize =.asd= file by any Lisp implementations.
