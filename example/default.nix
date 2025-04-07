@@ -8,6 +8,7 @@
 
   sbcl,
   clisp,
+  ecl,
 }:
 
 let
@@ -67,5 +68,6 @@ stdenv.mkDerivation rec {
   lispImpls = [
     sbcl
     clisp
+    ecl
   ];
 }
