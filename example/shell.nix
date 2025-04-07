@@ -35,5 +35,5 @@ mkShell {
     sbcl
   ];
 
-  CL_CENTRAL_REGISTRY = "/nix/store/ai8djd2nbjjqyhzzcfxg2f5abqq7jfp2-central-registry";
+  CL_CENTRAL_REGISTRY = "${central-registry}";
 }
