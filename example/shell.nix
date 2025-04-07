@@ -9,11 +9,11 @@
 }:
 
 let
-  central-registry = stdenv.mkDerivation rec {
-    name = "central-registry";
+  source-registry = stdenv.mkDerivation rec {
+    name = "source-registry";
     dontUnpack = true;
 
-    buildInputs = [
+    srcs = [
       (fetchFromGitLab {
         domain = "gitlab.common-lisp.net";
         repo = "alexandria";
@@ -25,7 +25,7 @@ let
 
     installPhase = ''
       mkdir $out
-      cp -r ${lib.strings.concatStringsSep " " (builtins.map (drv: "${drv}/*") buildInputs)} $out
+      cp -r ${lib.strings.concatStringsSep " " (builtins.map (drv: "${drv}/*") srcs)} $out
     '';
   };
 in
@@ -35,5 +35,5 @@ mkShell {
     sbcl
   ];
 
-  CL_CENTRAL_REGISTRY = "${central-registry}";
+  CL_SOURCE_REGISTRY = "${source-registry}";
 }
