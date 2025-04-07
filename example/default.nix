@@ -1,10 +1,10 @@
 {
   lib,
-  stdenv,
+  callPackage,
   fetchzip,
-  fetchFromGitHub,
   fetchFromGitLab,
-  replaceVars,
+  fetchFromGitHub,
+  lispDerivation ? callPackage ../nix/lispDerivation { },
 
   sbcl,
   clisp,
@@ -33,37 +33,16 @@ let
   };
 in
 
-stdenv.mkDerivation rec {
+lispDerivation {
   pname = "fiveam";
   version = "dev";
   src = lib.cleanSource ./.;
 
-  builderScript = replaceVars ./builder.lisp {
-    inherit pname;
-  };
-
-  buildPhase = ''
-    runHook preBuild
-
-    export HOME=$TMPDIR
-
-    ${lib.strings.concatStringsSep "\n" (
-      builtins.map (drv: "cat '${builderScript}' | ${lib.getExe drv}") lispImpls
-    )}
-
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-
-    mkdir $out
-    cp -r * $out
-
-    runHook postInstall
-  '';
-
-  CL_SOURCE_REGISTRY = "${alexandria}:${asdf-flv}:${trivial-backtrace}:${src}";
+  buildInputs = [
+    alexandria
+    asdf-flv
+    trivial-backtrace
+  ];
 
   lispImpls = [
     sbcl

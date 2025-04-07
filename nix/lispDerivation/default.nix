@@ -5,21 +5,20 @@
 }:
 
 {
-  name,
+  name ? null,
   pname,
-  version,
-  buildInputs,
+  version ? null,
+  src,
+  buildInputs ? [],
   lispImpls,
-}:
+}@args:
 
 stdenv.mkDerivation rec {
-  name = if name != null then
-    name
-  else
-    "${pname}-${version}";
+  name = args.name or "${args.pname}-${args.version}";
+  inherit (args) src;
 
   builderScript = replaceVars ./builder.lisp {
-    pname = if name != null then name else pname;
+    pname = args.name or args.pname;
   };
 
   buildPhase = ''
@@ -43,5 +42,5 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  CL_SOURCE_REGISTRY = "${lib.strings.concatStringsSep "\n" (builtins.map (drv: "${drv}") buildInputs)}:${src}";
+  CL_SOURCE_REGISTRY = "${lib.strings.concatStringsSep ":" (builtins.map (drv: "${drv}") args.buildInputs)}:${args.src}";
 }
