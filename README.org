@@ -6,16 +6,23 @@ I want to use the Nix expression such as:
 #+begin_src nix
   {
     mkShell,
+    makeCommonLispSourceRegistry,
+
     lispPackages.fmt,
     lispPackages.fiveam,
   }:
 
   mkShell {
-    packages = [
+    nativeBuildInputs = [
       ccl
+    ];
+
+    buildInputs = [
       lispPackages.fmt
       lispPackages.fiveam
     ];
+
+    CL_SOURCE_REGISTRY = makeCommonLispSourceRegistry buildInputs;
   }
 #+end_src
 
