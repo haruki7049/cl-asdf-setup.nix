@@ -9,7 +9,7 @@
 }:
 
 let
-  makeCommonLispSourceRegistry = drv-list: lib.strings.concatStringsSep ":" (builtins.map (drv: "${drv}") drv-list);
+  makeCommonLispSourceRegistry = drv-list: lib.strings.makeSearchPathOutput "" "" drv-list;
 
   alexandria = fetchFromGitLab {
     domain = "gitlab.common-lisp.net";
