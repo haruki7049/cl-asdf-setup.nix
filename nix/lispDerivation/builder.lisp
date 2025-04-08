@@ -7,7 +7,7 @@
 (handler-case
     (progn
       (asdf:load-system "@pname@")
-      (ext:quit 0))
+      (uiop:quit 0))
   (error (e)
     (format *error-output* "Error: ~A~%" e)
-    (ext:quit 1)))
+    (uiop:quit 1)))
