@@ -1,16 +1,15 @@
 {
-  lib,
   mkShell,
+  callPackage,
   fetchzip,
   fetchFromGitHub,
   fetchFromGitLab,
+  makeCommonLispSourceRegistry ? callPackage ../nix/makeCommonLispSourceRegistry { },
 
   sbcl,
 }:
 
 let
-  makeCommonLispSourceRegistry = drv-list: lib.strings.makeSearchPathOutput "" "" drv-list;
-
   alexandria = fetchFromGitLab {
     domain = "gitlab.common-lisp.net";
     repo = "alexandria";

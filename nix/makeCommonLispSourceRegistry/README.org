@@ -1,0 +1,26 @@
+#+title: makeCommonLispSourceRegistry
+#+author: haruki7049
+
+* How to use this function
+
+#+begin_src nix
+  {
+    mkShell,
+    callPackage,
+    makeCommonLispSourceRegistry ? callPackage ./nix/makeCommonLispSourceRegistry { }, # This path referenced to `/nix/makeCommonLispSourceRegistry/default.nix`
+
+    sbcl,
+  }:
+
+  mkShell rec {
+    nativeBuildInputs = [
+      sbcl
+    ];
+
+    buildInputs = [
+      # ANY SOURCE CODE DERIVATIONS
+    ];
+
+    CL_SOURCE_REGISTRY = makeCommonLispSourceRegistry buildInputs;
+  }
+#+end_src
