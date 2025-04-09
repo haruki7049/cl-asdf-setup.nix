@@ -13,6 +13,12 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import inputs.systems;
 
+      flake = {
+        overlays = {
+          default = ./.;
+        };
+      };
+
       perSystem = { pkgs, ... }: {
         devShells.default = pkgs.mkShell {
           packages = [
