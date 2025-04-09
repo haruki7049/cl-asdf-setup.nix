@@ -6,14 +6,16 @@
 
 {
   name ? null,
-  pname,
+  pname ? null,
   version ? null,
   src,
-  buildInputs ? [],
-  lispImpls,
+  lispLibs ? [ ],
+  lisps,
+  runner,
+  ...
 }@args:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (args // rec {
   name = args.name or "${args.pname}-${args.version}";
   inherit (args) src;
 
@@ -21,13 +23,29 @@ stdenv.mkDerivation rec {
     pname = args.name or args.pname;
   };
 
+  checkerScript = replaceVars ./checker.lisp {
+    pname = args.name or args.pname;
+  };
+
+  checkPhase = ''
+    runHook preCheck
+
+    export HOME=$TMPDIR
+
+    ${lib.strings.concatStringsSep "\n" (
+      builtins.map (drv: "cat '${checkerScript}' | ${lib.getExe drv}") lisps
+    )}
+
+    runHook postCheck
+  '';
+
   buildPhase = ''
     runHook preBuild
 
     export HOME=$TMPDIR
 
     ${lib.strings.concatStringsSep "\n" (
-      builtins.map (drv: "cat '${builderScript}' | ${lib.getExe drv}") lispImpls
+      builtins.map (drv: "cat '${builderScript}' | ${lib.getExe drv}") lisps
     )}
 
     runHook postBuild
@@ -42,5 +60,5 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  CL_SOURCE_REGISTRY = "${lib.strings.concatStringsSep ":" (builtins.map (drv: "${drv}") args.buildInputs)}:${args.src}";
-}
+  CL_SOURCE_REGISTRY = "${lib.strings.concatStringsSep ":" (builtins.map (drv: "${drv.CL_SOURCE_REGISTRY}") args.lispLibs or [ ] ++ [ args.src ])}";
+})
