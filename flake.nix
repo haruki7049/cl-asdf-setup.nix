@@ -28,11 +28,22 @@
       };
 
       perSystem =
-        { pkgs, ... }:
+        { pkgs, system, ... }:
         {
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [
+              (import ./.)
+            ];
+          };
+
           treefmt = {
             projectRootFile = "flake.nix";
             programs.nixfmt.enable = true;
+          };
+
+          checks = {
+            example = pkgs.callPackage ./example { };
           };
 
           devShells.default = pkgs.mkShell {
