@@ -23,7 +23,7 @@
 
       flake = {
         overlays = {
-          default = ./.;
+          default = import ./.;
         };
       };
 
