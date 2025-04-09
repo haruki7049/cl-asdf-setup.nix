@@ -5,5 +5,5 @@
 drv-list:
 
 "${lib.strings.concatStringsSep ":" (
-  builtins.map (drv: "${drv.CL_SOURCE_REGISTRY}") (drv-list or [ ])
+  builtins.map (drv: "${drv.CL_SOURCE_REGISTRY}") drv-list
 )}"
